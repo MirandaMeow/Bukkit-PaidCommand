@@ -1,0 +1,12 @@
+name: PaidCommand
+main: software.viz.mc.bukkit.PaidCommand
+version: 1.0.0
+author: Viz
+depend:
+- Vault
+commands:
+  paidcommand:
+    description: Let player money to use commands
+    usage: |
+      /paidcommand -- Show plugin version.
+      /paidcommand reload -- Reload configuration.

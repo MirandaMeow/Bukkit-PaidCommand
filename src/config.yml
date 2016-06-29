@@ -1,0 +1,8 @@
+# You can edit these messages.
+insufficientFundsMessage: Insufficient funds. You have ${balance} but ${cost} needed.
+accountDeductedMessage: Charged ${cost}, you now have ${balance}.
+
+# To charge for a command, put its regular expression on the left and price on the right.
+prices:
+  ^/version: 10
+  ^/plugins: 20
