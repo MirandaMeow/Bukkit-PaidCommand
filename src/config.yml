@@ -1,8 +1,26 @@
-# You can edit these messages.
-insufficientFundsMessage: Insufficient funds. You have ${balance} but ${cost} needed.
-accountDeductedMessage: Charged ${cost}, you now have ${balance}.
+# For configuration auto-update purpose, DO NOT change it manually.
+config-version: 1
 
-# To charge for a command, put its regular expression on the left and price on the right.
+# Default messages sent when player run paid commands.
+default-success: Charged ${cost}, you now have ${balance}.
+default-failure: Insufficient funds. You have ${balance} but ${cost} needed.
+
+# Pricing table:
+# - regex: put regular expression here for command matching.
+# - price: put price of this type of command.
+# - success: (Optional) Display message on successfully execute the command.
+# - failure: (Optional) Display message when player have inefficient fund.
+#
+# Note: you can use ${variable} for variable substitution, available variables are: ${cost} and ${balance},
+#       to prevent display a success / failure message to player, put empty string ''.
 prices:
-  ^/version: 10
-  ^/plugins: 20
+- regex: ^/version$
+  price: 10
+- regex: ^/plugins$
+  price: 20
+  success: You have spent ${cost} to view the list of plugins used by this server, now you have ${balance}.
+  failure: You don't have enough money to view the plugin list, ${cost} needed, you only have ${balance}.
+- regex: ^/res tp .+$
+  price: 30
+  success: ''
+  failure: ''

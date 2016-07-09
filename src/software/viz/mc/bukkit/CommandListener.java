@@ -7,6 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class CommandListener implements Listener {
     final private PaidCommand PLUGIN;
 
@@ -26,18 +29,20 @@ public class CommandListener implements Listener {
         if (!command.startsWith("/"))
             return;
 
-        double cost = PLUGIN.priceMap.getCost(command);
-        if (cost == 0d)
+        PriceEntry priceEntry = PLUGIN.priceList.pricing(command);
+        if (priceEntry == null)
             return;
 
+        double cost = priceEntry.getPrice();
         double balance = PLUGIN.economy.getBalance(player);
 
-        if (cost > balance) {
-            String message = PLUGIN.getConfig().getString("insufficientFundsMessage");
+        Map<String, String> variables = new LinkedHashMap<String, String>();
+        variables.put("cost", PLUGIN.economy.format(cost));
+        variables.put("balance", PLUGIN.economy.format(balance));
 
-            if (message != null && !message.equals("")) {
-                message = message.replace("${cost}", PLUGIN.economy.format(cost))
-                        .replace("${balance}", PLUGIN.economy.format(balance));
+        if (cost > balance) {
+            String message = priceEntry.formatMessage(false, variables);
+            if (message != null) {
                 player.sendMessage(ChatColor.RED + message);
             }
             event.setCancelled(true);
@@ -47,11 +52,11 @@ public class CommandListener implements Listener {
 
         EconomyResponse result = PLUGIN.economy.withdrawPlayer(player, cost);
         if (result.transactionSuccess()) {
-            String message = PLUGIN.getConfig().getString("accountDeductedMessage");
+            balance = balance - cost;
+            variables.put("balance", PLUGIN.economy.format(balance));
 
-            if (message != null && !message.equals("")) {
-                message = message.replace("${cost}", PLUGIN.economy.format(cost))
-                        .replace("${balance}", PLUGIN.economy.format(balance - cost));
+            String message = priceEntry.formatMessage(true, variables);
+            if (message != null) {
                 player.sendMessage(ChatColor.GREEN + message);
             }
         }
