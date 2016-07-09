@@ -1,6 +1,6 @@
 name: PaidCommand
 main: software.viz.mc.bukkit.PaidCommand
-version: 1.0.0
+version: 1.1.0
 author: Viz
 depend:
 - Vault
@@ -10,3 +10,23 @@ commands:
     usage: |
       /paidcommand -- Show plugin version.
       /paidcommand reload -- Reload configuration.
+permissions:
+  paidcommand.*:
+    description: Grant all permission of PaidCommand.
+    children:
+      paidcommand.free: true
+      paidcommand.reload: true
+      paidcommand.list: true
+      paidcommand.test: true
+  paidcommand.free:
+    description: Allows you to use all paid commands for free.
+    default: op
+  paidcommand.reload:
+    description: Allows you to reload configuration for PaidCommand.
+    default: false
+  paidcommand.list:
+    description: Allows you to list all the paid commands.
+    default: op
+  paidcommand.test:
+    description: Allows you to test if a command matches any paid commands.
+    default: true
