@@ -42,4 +42,8 @@ public class PriceEntry {
 
         return message;
     }
+
+    public String getRegex() {
+        return pattern.toString();
+    }
 }
