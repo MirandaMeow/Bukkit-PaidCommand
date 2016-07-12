@@ -8,8 +8,10 @@ commands:
   paidcommand:
     description: Let player money to use commands
     usage: |
-      /paidcommand -- Show plugin version.
-      /paidcommand reload -- Reload configuration.
+      §e/paidcommand§r -- Show plugin version.
+      §e/paidcommand reload§r -- Reload configuration.
+      §e/paidcommand list§r -- List all paid commands.
+      §e/paidcommand test §6<command> <arguments...>§r -- Check price of a command.
 permissions:
   paidcommand.*:
     description: Grant all permission of PaidCommand.
